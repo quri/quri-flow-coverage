@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const flowCoverage = require('./flow-coverage');
+const runFlowCoverage = require('./flow-coverage');
 const exec = require("child_process").exec;
 
 
@@ -22,10 +22,14 @@ function printError(error, stdout) {
 
 app.get("/github/payload", () => {
   // exec("git pull -f origin master", printError);
-  flowCoverage();
+    flowCoverage();
+
 });
 
 
 app.listen(1337, () => {
+  const getFlowCoverage = (res) => res.then(e => console.log("tg", e));
+  runFlowCoverage(getFlowCoverage);
+
   console.log('Example app listening on port 8080!');
 });
