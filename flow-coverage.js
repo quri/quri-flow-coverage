@@ -29,7 +29,7 @@ module.exports = function runFlowCoverage(cb) {
       };
       const isAJavaScriptFile = filename.match(/\.js$/);
 
-      return  isAJavaScriptFile && hasFilesChanged
+      return isAJavaScriptFile && hasFilesChanged
         ? new Promise(flowBinaryResult)
         : NOT_A_JS_FILE_MESSAGE;
     });

@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const runFlowCoverage = require('./flow-coverage');
 const exec = require("child_process").exec;
+const execSync = require("child_process").execSync;
 
+const OAUTH_TOKEN
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -21,15 +23,12 @@ function printError(error, stdout) {
 }
 
 app.get("/github/payload", () => {
-  // exec("git pull -f origin master", printError);
-    flowCoverage();
-
+  const getFlowCoverage = (res) => res.then(e => console.log("tg", e));
+  runFlowCoverage(getFlowCoverage);
 });
 
 
 app.listen(1337, () => {
-  const getFlowCoverage = (res) => res.then(e => console.log("tg", e));
-  runFlowCoverage(getFlowCoverage);
-
+  execSync(`git clone https://${OAUTH_TOKEN}:x-oauth-basic@github.com/quri/nervecenter.git`)
   console.log('Example app listening on port 8080!');
 });
