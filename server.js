@@ -17,11 +17,11 @@ function printError(error, stdout) {
     console.error(`exec error: ${error}`);
     return;
   }
-  console.log(stdout);
+  console.log('',stdout);
 }
 
 app.get("/github/payload", () => {
-  exec("git pull -f origin master", printError);
+  // exec("git pull -f origin master", printError);
   flowCoverage();
 });
 
