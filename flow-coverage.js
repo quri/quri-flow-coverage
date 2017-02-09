@@ -6,7 +6,7 @@ const exec = require("child_process").exec;
 
 module.exports = function runFlowCoverage(cb) {
 
-  exec("git diff --name-only master", (error, stdout) => {
+  exec("git -C nervecenter diff --name-only master", (error, stdout) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
@@ -19,15 +19,20 @@ module.exports = function runFlowCoverage(cb) {
 
     const filesCoverage = filesChanged.map((filename, index) => {
       const flowBinaryResult = (resolve) => {
-        exec(`./node_modules/.bin/flow coverage ${filename}`, (fileError, fileStdout) => {
+        exec(`./nervecenter/node_modules/.bin/flow coverage nervecenter/${filename}`, (fileError, fileStdout) => {
+          if (fileError) {
+            console.error(`flowBinaryResult error`, fileError);
+          }
           const percentageRegex = /\d+(?:\.\d+)?%/g;
+          console.log("JACQUIE", fileStdout);
           const percentage = parseFloat(percentageRegex.exec(fileStdout)[0], 10);
           console.log(`${percentage}% : ${filename}`);
 
           return resolve([percentage, filename]);
         });
       };
-      const isAJavaScriptFile = filename.match(/\.js$/);
+
+      const isAJavaScriptFile = filename.match(/src\/.*.js/);
 
       return isAJavaScriptFile && hasFilesChanged
         ? new Promise(flowBinaryResult)
