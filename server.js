@@ -22,10 +22,8 @@ function printError(error, stdout) {
 }
 
 app.get("/github/payload", (req,res) => {
-  const DESTINATION_BRANCH = "feature/flow-report"
-  execSync(`git -C nervecenter checkout ${DESTINATION_BRANCH} && git -C nervecenter pull`)
-  const getFlowCoverage = (flowCoverage) => flowCoverage.then(e => console.log("tg", e));
-  runFlowCoverage(getFlowCoverage);
+  const DESTINATION_BRANCH = "prod-114_shift_toggle"
+  execSync(`./flow-coverage.sh ${DESTINATION_BRANCH}`);
 });
 
 
@@ -33,5 +31,5 @@ app.listen(1337, () => {
   // execSync("curl -o- -L https://yarnpkg.com/install.sh | bash", printError);
   execSync(`git -C nervecenter pull || git clone https://${OAUTH_TOKEN}:x-oauth-basic@github.com/quri/nervecenter.git`, printError)
   execSync("cd nervecenter && yarn")
-  console.log('Example app listening on port 8080!');
+  console.log('Example app listening on port 1337!');
 });
