@@ -42,8 +42,12 @@ app.get("/github/payload", (req,res) => {
   .then((resp) => {
     console.log("Wipping coverage.txt...");
     execSync('>coverage.txt');
+    res.status(200).end();
   })
-  .catch((error) => console.error(error));
+  .catch((error) => {
+    console.error(error)
+    res.status(400).send(error);
+  });
 });
 
 
