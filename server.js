@@ -58,6 +58,6 @@ app.post("/github/payload", (req,res) => {
 
 app.listen(1337, () => {
   execSync("which yarn || curl -o- -L https://yarnpkg.com/install.sh | bash", printError);
-  execSync(`git -C nervecenter pull || git clone https://${OAUTH_TOKEN}:x-oauth-basic@github.com/quri/nervecenter.git`, printError)
+  execSync(`git -C nervecenter pull origin master || git clone https://${OAUTH_TOKEN}:x-oauth-basic@github.com/quri/nervecenter.git`, printError)
   console.log('Example app listening on port 1337!');
 });
