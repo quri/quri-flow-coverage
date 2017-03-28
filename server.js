@@ -23,11 +23,14 @@ function printError(error, stdout) {
 }
 
 app.get("/github/payload", (req,res) => {
-  const DESTINATION_BRANCH = "prod-114_shift_toggle";
-  const PULL_REQUEST_ID = "985";
+  const DESTINATION_BRANCH = req.body.pull_request.head.ref;
+  const PULL_REQUEST_ID = req.body.pull_request.number;
+  console.log("Running flow coverage...")
   execSync(`./flow-coverage.sh ${DESTINATION_BRANCH}`);
+
   console.log("Reading coverage.txt...");
   const content = fs.readFileSync("./coverage.txt").toString();
+
   console.log("Posting flow coverage result on Github pull request...");
   fetch(`https://api.github.com/repos/quri/nervecenter/issues/${PULL_REQUEST_ID}/comments`, {
     headers: {
@@ -41,8 +44,6 @@ app.get("/github/payload", (req,res) => {
     execSync('>coverage.txt');
   })
   .catch((error) => console.error(error));
-
-  // execSync(`curl -i -H 'Authorization: token ${OAUTH_TOKEN}' -d '{"body": ${content}}' https://api.github.com/repos/quri/nervecenter/issues/${PULL_REQUEST_ID}/comments`);
 });
 
 
