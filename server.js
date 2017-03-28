@@ -22,7 +22,7 @@ function printError(error, stdout) {
   console.log('',stdout);
 }
 
-app.get("/github/payload", (req,res) => {
+app.post("/github/payload", (req,res) => {
   const DESTINATION_BRANCH = req.body.pull_request.head.ref;
   const PULL_REQUEST_ID = req.body.pull_request.number;
   console.log("Running flow coverage...")
