@@ -1,8 +1,6 @@
 #! /bin/bash
 # 51 should be the branch name
 
-which yarn || curl -o- -L https://yarnpkg.com/install.sh | bash
-git -C nervecenter pull || git clone git@github.com:quri/nervecenter.git
 git -C nervecenter reset --hard HEAD
 yarn install
 git -C nervecenter checkout master
